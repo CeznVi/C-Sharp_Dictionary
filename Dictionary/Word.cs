@@ -78,9 +78,15 @@ namespace Dictionary
             TWord.Add(translete);
         }
 
-        public Word() 
+        public Word()
         {
             BWord = string.Empty;
+        }
+
+        /// Удалить
+        public Word(string bWord) 
+        {
+            BWord = bWord;
         }
     }
 }
