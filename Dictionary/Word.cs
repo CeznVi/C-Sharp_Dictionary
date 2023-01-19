@@ -12,7 +12,7 @@ namespace Dictionary
     /// Контейнер для зберігання слова та перекладів до нього
     /// </summary>
     [Serializable]
-    public class Word
+    public class Word : IComparable<Word>
     {
         /*------------Властивості(змінні)--------------*/
         /// <summary>

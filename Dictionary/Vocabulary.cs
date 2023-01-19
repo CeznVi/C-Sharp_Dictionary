@@ -11,7 +11,6 @@ namespace Dictionary
         /// <summary>
         /// Словник (вдосконалений Dictionary для підтримки сериалізації)
         /// </summary>
-        /// <see cref="https://www.cyberforum.ru/csharp-net/thread1429593.html"/>
         public SerializableDictionary<string, List<Word>> vc = new();
 
         /*-----------------------Серіалізація--------------------------*/
@@ -167,11 +166,16 @@ namespace Dictionary
         /// <param name="lang">Мова - мова переклад</param>
         public void ShowAllWord(string lang) 
         {
-            if(lang != null)
-                foreach (Word item in vc[lang])
-                    Console.WriteLine(item);
-            else
-                Console.WriteLine($"Словника {lang} не існує");
+            try
+            {
+                if (lang != null)
+                    foreach (Word item in vc[lang])
+                        Console.WriteLine(item);
+            }
+            catch (KeyNotFoundException) 
+            { 
+                Console.WriteLine($"Словника \"{lang}\" не існує, вивід не можливий"); 
+            }   
         }
         /// <summary>
         /// Показати переклад слова у відповідному словнику
@@ -186,9 +190,9 @@ namespace Dictionary
             }
             catch (KeyNotFoundException)
             {
-                Console.WriteLine($"Словника {lang} не існує");
+                Console.WriteLine($"Словника \"{lang}\" не існує, вивід не можливий");
             }
-            catch(ArgumentNullException e)
+            catch (ArgumentNullException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -199,16 +203,16 @@ namespace Dictionary
         /// Додати Словник (Мова - мова перекладу)
         /// </summary>
         /// <param name="language">Мова - мова перекладу</param>
-        public void AddLanguage(string language)
+        public void AddLanguage(string lang)
         {
             try
             {
-                if (language != null)
-                    vc.Add(language, new List<Word>());
+                if (lang != null)
+                    vc.Add(lang, new List<Word>());
             }
             catch(System.ArgumentException)
             {
-                Console.WriteLine($"Такий словник: \"{language}\" вже існує");
+                Console.WriteLine($"Такий словник: \"{lang}\" вже існує");
             }
         }
         /// <summary>
@@ -223,7 +227,10 @@ namespace Dictionary
                 if (vc[lang].Find(w => w.BWord == wordClass.BWord) != null)
                     throw new ArgumentException();
                 else
+                {
                     vc[lang].Add(wordClass);
+                    vc[lang].Sort();
+                }
             }
             catch (KeyNotFoundException)
             {
@@ -246,10 +253,7 @@ namespace Dictionary
             try
             {
                 if (vc[lang].Find(w => w.BWord == word).TWord.Find(w => w.Equals(trans)) != null)
-                {
-                    string errorWord = vc[lang].Find(w => w.BWord == word).BWord;
-                    throw new ArgumentException(errorWord);
-                }
+                    throw new ArgumentException(vc[lang].Find(w => w.BWord == word).BWord);
                 else
                     (vc[lang].Find(w => w.BWord == word)).AddTranslete(trans);
             }
@@ -264,42 +268,105 @@ namespace Dictionary
             }
         }
 
-
-
-
         /*---Видаляють данні---*/
-
+        /// <summary>
+        /// Видалити словник
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        public void RemoveLanguage(string lang)
+        {
+            try
+            {
+                if (vc[lang] == null) throw new KeyNotFoundException();
+                
+                vc.Remove(lang);
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника \"{lang}\" не існує, видалення не можливе");
+            }
+            catch (System.ArgumentException)
+            {
+                Console.WriteLine($"Такий словник: \"{lang}\" не існує");
+            }
+        }
+        /// <summary>
+        /// Видалити слово
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="word">Слово</param>
         public void RemoveWord(string lang, string word)
         {
             try
             {
+                if (vc[lang] == null) throw new KeyNotFoundException();
+                
                 if (vc[lang].Find(w => w.BWord == word) == null)
-                    Console.WriteLine($"Слова {word} не існує");
-                else
-                    _ = vc[lang].Remove(vc[lang].Find(w => w.BWord == word));
+                    throw new ArgumentException();
+
+                _ = vc[lang].Remove(vc[lang].Find(w => w.BWord == word));
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника \"{lang}\" не існує, видалення не можливе");
             }
             catch (ArgumentNullException)
             {
                 Console.WriteLine($"Слова {word} не існує");
             }
-            catch (KeyNotFoundException)
+            catch (ArgumentException)
             {
-                Console.WriteLine($"Словника {lang} не існує");
+                Console.WriteLine($"Слова \"{word}\" немає у словнику");
             }
         }
 
+
+
+        ///проверить, добавить ексепшены
         public void RemoveTranslete(string lang, string word, string trans)
         {
-            foreach (Word item in vc[lang])
+            ////Проработать
+            try
             {
-                if (item.BWord == word)
-                    item.RemoveTranslete(trans);
+                if (vc[lang] == null) throw new KeyNotFoundException();
+
+                if (vc[lang].Find(w => w.BWord == word) == null)
+                    throw new ArgumentException();
+
+                _ = vc[lang].Remove(vc[lang].Find(w => w.BWord == word));
             }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника \"{lang}\" не існує, видалення не можливе");
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine($"Слова {word} не існує");
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine($"Слова \"{word}\" немає у словнику");
+            }
+
+
+
+
+            //foreach (Word item in vc[lang])
+            //{
+            //    if (item.BWord == word)
+            //        item.RemoveTranslete(trans);
+            //}
         }
+
+
 
 
         ///TO DO
-        /*---Редагують данні---*/
+        /*---Редагують данні---(словник, слово, переклад)*/
+
+        /*---Шукають данні(слово у словнику)---*/
+
+        /*---Експорт слова з перекладом у файл.тхт---*/
 
         /*---Сутність меню + створити класи та наслідників---*/
     }
