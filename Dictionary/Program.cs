@@ -9,8 +9,7 @@ namespace Dictionary
             Console.Title = "Dictionary";
             Console.OutputEncoding = Encoding.Unicode;
 
-            Word word = new();
-            word.BWord = "dog";
+            Word word = new("dog");
             word.AddTranslete("собака");
             word.AddTranslete("пес");
             word.AddTranslete("собак");
@@ -36,31 +35,54 @@ namespace Dictionary
             dic.AddWord("English - Ukrainian", word);
 
 
-            Word word3 = new();
-            word3.BWord = "test";
+            Word word3 = new("test");
             word3.AddTranslete("с123");
             word3.AddTranslete("п123");
             word3.AddTranslete("со132");
 
             dic.AddWord("English - Ukrainian", word3);
-            dic.AddWord("English - Ukrainian", new Word("Vasya","Вася"));
+            dic.AddWord("English - Ukrainian", new Word("Vasya", "Вася"));
+            dic.AddWord("123", word3);
 
-
-            //dic.ShowAllWord("English - Ukrainian");
-            dic.AddTranslete("English - Ukrainian", "dog","псюк");
-            dic.ShowWord("English - Ukrainian", "dog");
-
-            dic.RemoveTranslete("English - Ukrainian", "dog", "псюк");
-            dic.RemoveTranslete("English - Ukrainian", "dog", "собака");
-            dic.RemoveTranslete("English - Ukrainian", "dog", "собак");
-            dic.RemoveTranslete("English - Ukrainian", "dog", "пес");
-            dic.ShowWord("English - Ukrainian", "dog");
-
-            Console.WriteLine("\n Remove test");
-            dic.RemoveWord("English - Ukrainian", "test");
             dic.ShowAllWord("English - Ukrainian");
+
+            dic.AddTranslete("English - Ukrainian", "dog", "псюк");
+
+
+
+
+            //dic.ShowWord("English - Ukrainian", "dog");
+
+            //dic.RemoveTranslete("English - Ukrainian", "dog", "псюк");
+            //dic.RemoveTranslete("English - Ukrainian", "dog", "собака");
+            //dic.RemoveTranslete("English - Ukrainian", "dog", "собак");
+            //dic.RemoveTranslete("English - Ukrainian", "dog", "пес");
+            //dic.ShowWord("English - Ukrainian", "dog");
+
+            //Console.WriteLine("\n Remove test");
+            //dic.RemoveWord("English - Ukrainian", "test");
+            //dic.ShowAllWord("English - Ukrainian");
             ////ТЕСТ ТРАЙ КЕТЧ
             //dic.ShowAllWord("error");
+
+            //dic.RemoveWord("English - Ukrainian", "1111");
+            //List<string> s = new (dic.GetTransleteWordList("English - Ukrainian", "dog"));
+            //foreach(string s2 in s) 
+            //{
+            //    Console.WriteLine(s2);
+            //}
+
+
+            /////SEREALIZATION
+            dic.SerializeData();
+            dic.ShowAllWord("English - Ukrainian");
+            dic = new();
+            Console.ReadKey();
+            Console.Clear();
+            
+            dic.DeserializeData();
+
+            dic.ShowAllWord("English - Ukrainian");
 
         }
     }

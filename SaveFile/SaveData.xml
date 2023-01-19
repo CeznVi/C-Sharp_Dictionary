@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+  <item>
+    <key>
+      <string>English - Ukrainian</string>
+    </key>
+    <value>
+      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Word>
+          <BWord>dog</BWord>
+          <TWord>
+            <string>собака</string>
+            <string>пес</string>
+            <string>собак</string>
+            <string>псюк</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>test</BWord>
+          <TWord>
+            <string>с123</string>
+            <string>п123</string>
+            <string>со132</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>Vasya</BWord>
+          <TWord>
+            <string>Вася</string>
+          </TWord>
+        </Word>
+      </ArrayOfWord>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>English - Russian</string>
+    </key>
+    <value>
+      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>Ukrainian - English</string>
+    </key>
+    <value>
+      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>Russian - English</string>
+    </key>
+    <value>
+      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+    </value>
+  </item>
+</dictionary>

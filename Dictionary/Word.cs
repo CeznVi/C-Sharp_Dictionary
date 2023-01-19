@@ -8,29 +8,26 @@ using System.Xml.Linq;
 
 namespace Dictionary
 {
-
     /// <summary>
     /// Контейнер для зберігання слова та перекладів до нього
     /// </summary>
+    [Serializable]
     public class Word
     {
         /*------------Властивості(змінні)--------------*/
         /// <summary>
         /// Властивість для зберігання слова
         /// </summary>
-        public string BWord { get; set; }
+        public string BWord = "null";
         /// <summary>
         /// Список для зберігання перекладу слова
         /// </summary>
-        private List<string> TWord = new List<string>();
+        public List<string> TWord = new();
         /*------------Конструктори--------------------*/
         /// <summary>
         /// Конструктор без параметрів
         /// </summary>
-        public Word()
-        {
-            BWord = string.Empty;
-        }
+        public Word() { }
         /// <summary>
         /// Конструктор з одним параметром
         /// </summary>
@@ -86,7 +83,7 @@ namespace Dictionary
         /// перекладу</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             foreach (string item in TWord)
             {
@@ -97,6 +94,17 @@ namespace Dictionary
             }
 
             return BWord + " -- " + sb;
+        }
+        /// <summary>
+        /// Метод для переміщення по данним ВОРД у контейнері
+        /// </summary>
+        /// <returns>Повертає елемент Word із контейнера</returns>
+        public IEnumerator<string> GetEnumerator()
+        {
+            for (int i = 0; i < TWord.Count; i++)
+            {
+                yield return TWord.ElementAt(i);
+            }
         }
     }
 }
