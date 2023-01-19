@@ -113,7 +113,7 @@ namespace Dictionary
         /// <returns>Повертає результат CompareTo</returns>
         public int CompareTo(Word w)
         {
-            return (BWord).CompareTo(w.BWord);
+            return (BWord.ToLower()).CompareTo(w.BWord.ToLower());
         }
     }
 }

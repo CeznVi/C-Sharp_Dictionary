@@ -81,15 +81,20 @@ namespace Dictionary
             //Console.Clear();
             dic.DeserializeData();
             Console.WriteLine("десеарілізованні данні");
-            dic.AddWord("English - Ukrainian", new Word("Abadon", "Абадон"));
+            dic.AddWord("English - Ukrainian", new Word("Abadon", new List<string> { "Абадон", "Абадон2", "Абадон3"}));
+            //dic.ShowAllWord("English - Ukrainian");
+
+            dic.AddWord("English - Ukrainian", new Word("dog"));
+            Word wordnew123 = new("Xmas", "різдво");
+            dic.AddWord("English - Ukrainian", wordnew123);
+            
+            Console.WriteLine("Новій вівод\n\n");
+            dic.AddTranslete("English - Ukrainian", "Xmas", "свято");
+            dic.AddTranslete("English - Ukrainian", "Xmas", "свято");
             dic.ShowAllWord("English - Ukrainian");
 
 
 
-
-            Console.WriteLine("\n\n");
-            foreach (string item in dic.GetWordList("English - Ukrainian"))
-                Console.WriteLine(item);
 
 
         }
