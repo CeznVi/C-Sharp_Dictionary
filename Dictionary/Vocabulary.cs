@@ -13,6 +13,7 @@ namespace Dictionary
         /// </summary>
         /// <see cref="https://www.cyberforum.ru/csharp-net/thread1429593.html"/>
         public SerializableDictionary<string, List<Word>> vc = new();
+
         /*-----------------------Серіалізація--------------------------*/
         /// <summary>
         /// Шлях до директорії де зберігати серіалізовані данні
@@ -75,26 +76,9 @@ namespace Dictionary
                 Console.WriteLine(e.Message);
             }
         }
+
         /*---------------------------Методи----------------------------*/
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// Додати Словник (Мова - мова перекладу)
-        /// </summary>
-        /// <param name="language">Мова - мова перекладу</param>
-        public void AddLanguage(string language) 
-        { 
-            vc.Add(language, new List<Word>());
-        }
-
-
+        /*---Повертають списки---*/
         /// <summary>
         /// Повернути список словників (Мова - мова перекладу)
         /// </summary>
@@ -108,13 +92,12 @@ namespace Dictionary
 
             return languageList;
         }
-
         /// <summary>
         /// Повернути список переводів слова
         /// </summary>
         /// <param name="lang">Словник(мова - мова переклад)</param>
         /// <param name="word">Слово</param>
-        /// <returns></returns>
+        /// <returns>Список переводів слова</returns>
         public List<string> GetTransleteWordList(string lang, string word)
         {
             
@@ -126,8 +109,6 @@ namespace Dictionary
             {
                 try
                 {
-                    
-
                     Word temp = vc[lang].Find(w => w.BWord == word);
 
                     if (temp != null)
@@ -150,30 +131,55 @@ namespace Dictionary
             
             return WordList;
         }
-        ///ADD try CATCH TKEY == неіснує
-
         /// <summary>
-        /// Додати у відповідник словник слово і слово переклад
+        /// Повернути список слів
         /// </summary>
         /// <param name="lang">Словник(мова - мова переклад)</param>
-        /// <param name="w">Контейнер слова</param>
-        public void AddWord(string lang, Word w) 
+        /// <returns>Список слів</returns>
+        public List<string> GetWordList(string lang)
         {
-            if(vc.ContainsKey(lang))
-                if(vc[lang].Contains(w) == false)
-                    vc[lang].Add(w);
+            List<string> WordList = new();
+            try
+            {
+                foreach(Word item in vc[lang])
+                {
+                    WordList.Add(item.BWord);
+                }
+                WordList.Sort();
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника {lang} не існує");
+            }
+            catch(InvalidOperationException e)
+            { 
+                Console.WriteLine(e.Message); 
+            }            
+
+            return WordList;
         }
+        
+        /*---Друкують данні---*/
+
+
+
+
+        ///ADD try CATCH TKEY == неіснує
         /// <summary>
         /// Показати всі слова у вибраному словнику
         /// </summary>
         /// <param name="lang">Мова - мова переклад</param>
         public void ShowAllWord(string lang) 
         {
-            foreach (Word item in vc[lang])
-            {
-                Console.WriteLine(item);
-            }
+            if(lang != null)
+                foreach (Word item in vc[lang])
+                    Console.WriteLine(item);
+            else
+                Console.WriteLine($"Словника {lang} не існує");
         }
+        
+        
+        
         /// <summary>
         /// Показати переклад слова у відповідному словнику
         /// </summary>
@@ -188,31 +194,40 @@ namespace Dictionary
             }
         }
 
-        public void AddTranslete(string lang, string word, string trans)
+
+        /// <summary>
+        /// Додати Словник (Мова - мова перекладу)
+        /// </summary>
+        /// <param name="language">Мова - мова перекладу</param>
+        public void AddLanguage(string language)
         {
-            foreach (Word item in vc[lang])
-            {
-                if (item.BWord == word)
-                    item.AddTranslete(trans);
-            }
-        }
-        public void RemoveTranslete(string lang, string word, string trans)
-        {
-            foreach (Word item in vc[lang])
-            {
-                if (item.BWord == word)
-                    item.RemoveTranslete(trans);
-            }
+            if (language != null)
+                vc.Add(language, new List<Word>());
         }
         
+        
+        
+        
+        /// <summary>
+        /// Додати у відповідник словник слово і слово переклад
+        /// </summary>
+        /// <param name="lang">Словник(мова - мова переклад)</param>
+        /// <param name="w">Контейнер слова</param>
+        public void AddWord(string lang, Word w)
+        {
+            if (vc.ContainsKey(lang))
+                if (vc[lang].Contains(w) == false)
+                    vc[lang].Add(w);
+        }
+
         public void RemoveWord(string lang, string word)
         {
             try
             {
-                if(vc[lang].Find(w => w.BWord == word) == null)
+                if (vc[lang].Find(w => w.BWord == word) == null)
                     Console.WriteLine($"Слова {word} не існує");
                 else
-                _ = vc[lang].Remove(vc[lang].Find(w => w.BWord == word));
+                    _ = vc[lang].Remove(vc[lang].Find(w => w.BWord == word));
             }
             catch (ArgumentNullException)
             {
@@ -223,5 +238,25 @@ namespace Dictionary
                 Console.WriteLine($"Словника {lang} не існує");
             }
         }
+
+
+        public void AddTranslete(string lang, string word, string trans)
+        {
+            foreach (Word item in vc[lang])
+            {
+                if (item.BWord == word)
+                    item.AddTranslete(trans);
+            }
+        }
+        
+        public void RemoveTranslete(string lang, string word, string trans)
+        {
+            foreach (Word item in vc[lang])
+            {
+                if (item.BWord == word)
+                    item.RemoveTranslete(trans);
+            }
+        }
+        
     }
 }

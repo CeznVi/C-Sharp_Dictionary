@@ -9,10 +9,10 @@ namespace Dictionary
             Console.Title = "Dictionary";
             Console.OutputEncoding = Encoding.Unicode;
 
-            Word word = new("dog");
-            word.AddTranslete("собака");
-            word.AddTranslete("пес");
-            word.AddTranslete("собак");
+            //Word word = new("dog");
+            //word.AddTranslete("собака");
+            //word.AddTranslete("пес");
+            //word.AddTranslete("собак");
 
             //Word word2 = new("cat", "кіт");
 
@@ -24,29 +24,29 @@ namespace Dictionary
             //    Console.Write(item + ' ');
 
             Vocabulary dic = new();
-            dic.AddLanguage("English - Ukrainian");
-            dic.AddLanguage("English - Russian");
-            dic.AddLanguage("Ukrainian - English");
-            dic.AddLanguage("Russian - English");
+            //dic.AddLanguage("English - Ukrainian");
+            //dic.AddLanguage("English - Russian");
+            //dic.AddLanguage("Ukrainian - English");
+            //dic.AddLanguage("Russian - English");
 
             //foreach (string item in dic.GetLanguageList())
             //    Console.WriteLine(item);
 
-            dic.AddWord("English - Ukrainian", word);
+            //dic.AddWord("English - Ukrainian", word);
 
 
-            Word word3 = new("test");
-            word3.AddTranslete("с123");
-            word3.AddTranslete("п123");
-            word3.AddTranslete("со132");
+            //Word word3 = new("test");
+            //word3.AddTranslete("с123");
+            //word3.AddTranslete("п123");
+            //word3.AddTranslete("со132");
 
-            dic.AddWord("English - Ukrainian", word3);
-            dic.AddWord("English - Ukrainian", new Word("Vasya", "Вася"));
-            dic.AddWord("123", word3);
+            //dic.AddWord("English - Ukrainian", word3);
+            //dic.AddWord("English - Ukrainian", new Word("Vasya", "Вася"));
+            //dic.AddWord("123", word3);
 
-            dic.ShowAllWord("English - Ukrainian");
+            //dic.ShowAllWord("English - Ukrainian");
 
-            dic.AddTranslete("English - Ukrainian", "dog", "псюк");
+            //dic.AddTranslete("English - Ukrainian", "dog", "псюк");
 
 
 
@@ -74,15 +74,23 @@ namespace Dictionary
 
 
             /////SEREALIZATION
-            dic.SerializeData();
-            dic.ShowAllWord("English - Ukrainian");
-            dic = new();
-            Console.ReadKey();
-            Console.Clear();
-            
+            //dic.SerializeData();
+            //dic.ShowAllWord("English - Ukrainian");
+            //dic = new();
+            //Console.ReadKey();
+            //Console.Clear();
             dic.DeserializeData();
-
+            Console.WriteLine("десеарілізованні данні");
+            dic.AddWord("English - Ukrainian", new Word("Abadon", "Абадон"));
             dic.ShowAllWord("English - Ukrainian");
+
+
+
+
+            Console.WriteLine("\n\n");
+            foreach (string item in dic.GetWordList("English - Ukrainian"))
+                Console.WriteLine(item);
+
 
         }
     }

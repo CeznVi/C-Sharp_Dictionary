@@ -106,5 +106,14 @@ namespace Dictionary
                 yield return TWord.ElementAt(i);
             }
         }
+        /// <summary>
+        /// Порівнює об'єкти типу Word
+        /// </summary>
+        /// <param name="w">Об'єкт типу Word</param>
+        /// <returns>Повертає результат CompareTo</returns>
+        public int CompareTo(Word w)
+        {
+            return (BWord).CompareTo(w.BWord);
+        }
     }
 }
