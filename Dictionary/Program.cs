@@ -17,9 +17,9 @@ namespace Dictionary
                 Console.WriteLine(i);
 
             //dic.ShowAllWord("English - Ukrainian");
-            dic.EditWord("English - Ukrainian", "test", "test99");
+            //dic.EditWord("English - Ukrainian", "test", "32");
 
-            Console.WriteLine("\n\tРедагування слова!!!!!!!!!!");
+            Console.WriteLine("\n\tРедагування перекладу!!!!!!!!!!");
             foreach (var i in dic.GetWordList("English - Ukrainian"))
                 Console.WriteLine(i);
 

@@ -426,7 +426,6 @@ namespace Dictionary
                 Console.WriteLine(e.Message);
             }
         }
-
         /// <summary>
         /// Змінити словo
         /// </summary>
@@ -439,11 +438,11 @@ namespace Dictionary
             {
                 if (vc[lang] == null) throw new KeyNotFoundException();
                 if (edition == string.Empty) 
-                    throw new ArgumentNullException($"Нова назва словника не повинна бути порожньою");
+                    throw new ArgumentNullException();
                 if (vc[lang].Find(w => w.BWord == word) == null)
                     throw new ArgumentException();
 
-                //vc[lang].[word] = edition;
+                vc[lang].Find( w=> w.BWord == word).BWord = edition;
 
             }
             catch (KeyNotFoundException)
@@ -452,7 +451,7 @@ namespace Dictionary
             }
             catch (ArgumentNullException e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine($"Нова назва словника не повинна бути порожньою");
             }
             catch (ArgumentException)
             {
@@ -463,11 +462,19 @@ namespace Dictionary
                 Console.WriteLine(e.Message);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="word">Слово</param>
+        /// <param name="trans">Переклад</param>
+        /// <param name="edition">Нове ім'я перекладу</param>
+        public void EditTranslete(string lang, string word, string trans, string edition)
+        {
 
-
+        }
 
         ///TO DO
-        /*---Редагують данні---(словник, слово, переклад)*/
 
         /*---Шукають данні(слово у словнику)---*/
 
