@@ -74,6 +74,7 @@ namespace Dictionary
             {
                 Console.WriteLine(e.Message);
             }
+
         }
 
         /*---------------------------Методи----------------------------*/
@@ -90,6 +91,37 @@ namespace Dictionary
                 languageList.Add(item.Key);
 
             return languageList;
+        }
+        /// <summary>
+        /// Повернути список слів
+        /// </summary>
+        /// <param name="lang">Словник(мова - мова переклад)</param>
+        /// <returns>Список слів</returns>
+        public List<string> GetWordList(string lang)
+        {
+            List<string> WordList = new();
+            try
+            {
+                foreach (Word item in vc[lang])
+                {
+                    WordList.Add(item.BWord);
+                }
+                WordList.Sort();
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника {lang} не існує");
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return WordList;
         }
         /// <summary>
         /// Повернути список переводів слова
@@ -126,35 +158,12 @@ namespace Dictionary
                 {
                     Console.WriteLine($"Словника {lang} не існує");
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
             
-            return WordList;
-        }
-        /// <summary>
-        /// Повернути список слів
-        /// </summary>
-        /// <param name="lang">Словник(мова - мова переклад)</param>
-        /// <returns>Список слів</returns>
-        public List<string> GetWordList(string lang)
-        {
-            List<string> WordList = new();
-            try
-            {
-                foreach(Word item in vc[lang])
-                {
-                    WordList.Add(item.BWord);
-                }
-                WordList.Sort();
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine($"Словника {lang} не існує");
-            }
-            catch(InvalidOperationException e)
-            { 
-                Console.WriteLine(e.Message); 
-            }            
-
             return WordList;
         }
         
@@ -175,7 +184,11 @@ namespace Dictionary
             catch (KeyNotFoundException) 
             { 
                 Console.WriteLine($"Словника \"{lang}\" не існує, вивід не можливий"); 
-            }   
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
         /// <summary>
         /// Показати переклад слова у відповідному словнику
@@ -196,6 +209,10 @@ namespace Dictionary
             {
                 Console.WriteLine(e.Message);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
         
         /*---Додають данні---*/
@@ -213,6 +230,10 @@ namespace Dictionary
             catch(System.ArgumentException)
             {
                 Console.WriteLine($"Такий словник: \"{lang}\" вже існує");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
         /// <summary>
@@ -241,6 +262,10 @@ namespace Dictionary
             { 
                 Console.WriteLine($"Слово \"{wordClass.BWord}\" вже є у словнику"); 
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
         /// <summary>
         /// Додати переклад до словника[слово]+переклад
@@ -266,6 +291,10 @@ namespace Dictionary
             {
                 Console.WriteLine($"Переклад \"{trans}\" вже є у слові {e.Message}");
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         /*---Видаляють данні---*/
@@ -288,6 +317,10 @@ namespace Dictionary
             catch (System.ArgumentException)
             {
                 Console.WriteLine($"Такий словник: \"{lang}\" не існує");
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.Message);
             }
         }
         /// <summary>
@@ -318,22 +351,30 @@ namespace Dictionary
             {
                 Console.WriteLine($"Слова \"{word}\" немає у словнику");
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
-
-
-
-        ///проверить, добавить ексепшены
+        /// <summary>
+        /// Видалити переклад у слові
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="word">Слово</param>
+        /// <param name="trans">Переклад</param>
         public void RemoveTranslete(string lang, string word, string trans)
         {
-            ////Проработать
             try
             {
                 if (vc[lang] == null) throw new KeyNotFoundException();
 
                 if (vc[lang].Find(w => w.BWord == word) == null)
-                    throw new ArgumentException();
+                    throw new ArgumentException($"Слова \"{word}\" немає у словнику");
+                if (vc[lang].Find(w => w.BWord == word).TWord.
+                             Find(t => t == trans) == null)
+                    throw new ArgumentException($"Переклад \"{trans}\" не міститься у слові \"{word}\"");
 
-                _ = vc[lang].Remove(vc[lang].Find(w => w.BWord == word));
+                vc[lang].Find( w => w.BWord == word).RemoveTranslete(trans);
             }
             catch (KeyNotFoundException)
             {
@@ -343,19 +384,14 @@ namespace Dictionary
             {
                 Console.WriteLine($"Слова {word} не існує");
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                Console.WriteLine($"Слова \"{word}\" немає у словнику");
+                Console.WriteLine(e.Message);
             }
-
-
-
-
-            //foreach (Word item in vc[lang])
-            //{
-            //    if (item.BWord == word)
-            //        item.RemoveTranslete(trans);
-            //}
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
 

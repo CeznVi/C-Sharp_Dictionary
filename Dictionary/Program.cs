@@ -94,7 +94,8 @@ namespace Dictionary
             dic.ShowAllWord("English - Ukrainian");
 
             Console.WriteLine("\n\nTEST DELL WORD");
-            dic.RemoveWord("English - Ukrainian", "Xmas2");
+            dic.RemoveTranslete("English - Ukrainian", "Xmas", "свято11");
+            
             dic.ShowAllWord("English - Ukrainian");
 
 
