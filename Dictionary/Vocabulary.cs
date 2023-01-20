@@ -246,7 +246,7 @@ namespace Dictionary
             try
             {
                 if (vc[lang].Find(w => w.BWord == wordClass.BWord) != null)
-                    throw new ArgumentException();
+                    throw new ArgumentException($"Слово \"{wordClass.BWord}\" вже є у словнику");
                 else
                 {
                     vc[lang].Add(wordClass);
@@ -258,9 +258,9 @@ namespace Dictionary
                 Console.WriteLine($"Словника {lang} не існує");
             }
             catch (ArgumentNullException e) { Console.WriteLine(e.Message); }
-            catch (ArgumentException) 
+            catch (ArgumentException e) 
             { 
-                Console.WriteLine($"Слово \"{wordClass.BWord}\" вже є у словнику"); 
+                Console.WriteLine(e.Message); 
             }
             catch (Exception e)
             {
@@ -394,6 +394,75 @@ namespace Dictionary
             }
         }
 
+        /*---Редагують данні---*/
+        /// <summary>
+        /// Змінити назву словника
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="edition">Нова назва словника</param>
+        public void EditLanguage(string lang, string edition)
+        {
+            try
+            {
+                if (vc[lang] == null) throw new KeyNotFoundException();
+                if (edition == string.Empty) throw new ArgumentNullException();
+
+                var temp = vc[lang];
+                vc.Remove(lang);
+                AddLanguage(edition);
+                vc[edition] = temp;
+                
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника \"{lang}\" не існує, редагування не можливе");
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine($"Нова назва словника не повинна бути порожньою");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Змінити словo
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="word">Слово</param>
+        /// <param name="edition">Нове ім'я слова</param>
+        public void EditWord(string lang, string word, string edition)
+        {
+            try
+            {
+                if (vc[lang] == null) throw new KeyNotFoundException();
+                if (edition == string.Empty) 
+                    throw new ArgumentNullException($"Нова назва словника не повинна бути порожньою");
+                if (vc[lang].Find(w => w.BWord == word) == null)
+                    throw new ArgumentException();
+
+                //vc[lang].[word] = edition;
+
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника \"{lang}\" не існує, редагування не можливе");
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine($"Слова \"{word}\" немає у словнику");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
 
 
 
