@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System.IO;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace Dictionary
 {
@@ -199,6 +201,9 @@ namespace Dictionary
         {
             try
             {
+                if (vc[lang].Find(w => w.BWord == word) == null)
+                    throw new ArgumentException($"Слова \"{word}\" немає у словнику");
+
                 Console.WriteLine(vc[lang].Find(w => w.BWord == word));
             }
             catch (KeyNotFoundException)
@@ -206,6 +211,10 @@ namespace Dictionary
                 Console.WriteLine($"Словника \"{lang}\" не існує, вивід не можливий");
             }
             catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ArgumentException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -449,7 +458,7 @@ namespace Dictionary
             {
                 Console.WriteLine($"Словника \"{lang}\" не існує, редагування не можливе");
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException)
             {
                 Console.WriteLine($"Нова назва словника не повинна бути порожньою");
             }
@@ -463,7 +472,7 @@ namespace Dictionary
             }
         }
         /// <summary>
-        /// 
+        /// Змінити переклад
         /// </summary>
         /// <param name="lang">Словник</param>
         /// <param name="word">Слово</param>
@@ -471,14 +480,96 @@ namespace Dictionary
         /// <param name="edition">Нове ім'я перекладу</param>
         public void EditTranslete(string lang, string word, string trans, string edition)
         {
+            try
+            {
+                if (vc[lang] == null) throw new KeyNotFoundException();
+                if (edition == string.Empty)
+                    throw new ArgumentNullException();
+                if (vc[lang].Find(w => w.BWord == word) == null)
+                    throw new ArgumentException($"Слова \"{word}\" немає у словнику");
 
+                if (vc[lang].Find(w => w.BWord == word).TWord.Find(t => t == trans) == null)
+                    throw new ArgumentException($"Переклад \"{trans}\" не міститься у слові \"{word}\"");
+
+                RemoveTranslete(lang, word, trans);
+                AddTranslete(lang, word, edition);
+
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника \"{lang}\" не існує, редагування не можливе");
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine($"Нова назва словника не повинна бути порожньою");
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
+
+        /*---Експорт слова з перекладом у файл.тхт---*/
+        /// <summary>
+        /// Шлях до директорії де зберігати експортованні данні
+        /// </summary>
+        private readonly string dirPathExp = "../../../../ExpotData";
+        /// <summary>
+        /// Експортувати слово і варіанти його перекладу до файлу
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="word">Слово</param>
+        public void ExportData(string lang, string word)
+        {
+            try
+            {
+                if (!Directory.Exists(dirPathExp))
+                {
+                    Directory.CreateDirectory(dirPathExp);
+                }
+
+                if (vc[lang].Find(w => w.BWord == word) == null)
+                    throw new ArgumentException($"Слова \"{word}\" немає у словнику");
+
+                string fName = '/' + lang + '_' + word + ".txt";
+
+                using (FileStream fs = new FileStream(dirPathExp + fName, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+                    {
+                        sw.WriteLine($"Словник: {lang}");
+                        sw.WriteLine("Слово\t Переклад");
+                        sw.WriteLine(vc[lang].Find(w => w.BWord == word));
+                    }
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника \"{lang}\" не існує, вивід не можливий");
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
 
         ///TO DO
 
-        /*---Шукають данні(слово у словнику)---*/
 
-        /*---Експорт слова з перекладом у файл.тхт---*/
+
 
         /*---Сутність меню + створити класи та наслідників---*/
     }

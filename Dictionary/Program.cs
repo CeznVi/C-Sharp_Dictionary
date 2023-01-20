@@ -13,15 +13,10 @@ namespace Dictionary
 
             dic.DeserializeData();
 
-            foreach (var i in dic.GetWordList("English - Ukrainian"))
-                Console.WriteLine(i);
 
-            //dic.ShowAllWord("English - Ukrainian");
-            //dic.EditWord("English - Ukrainian", "test", "32");
 
-            Console.WriteLine("\n\tРедагування перекладу!!!!!!!!!!");
-            foreach (var i in dic.GetWordList("English - Ukrainian"))
-                Console.WriteLine(i);
+            dic.ShowAllWord("English - Ukrainian");
+            dic.ExportData("English - Ukrainian", "test");
 
 
 
