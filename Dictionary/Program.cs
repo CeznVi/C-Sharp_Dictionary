@@ -14,8 +14,8 @@ namespace Dictionary
             dic.DeserializeData();
 
 
-
-            dic.ShowAllWord("English - Ukrainian");
+            dic.ShowWord("English - Ukrainian", "test");
+            //dic.ShowAllWord("English - Ukrainian");
             dic.ExportData("English - Ukrainian", "test");
 
 

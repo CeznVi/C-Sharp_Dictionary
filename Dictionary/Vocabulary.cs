@@ -204,6 +204,7 @@ namespace Dictionary
                 if (vc[lang].Find(w => w.BWord == word) == null)
                     throw new ArgumentException($"Слова \"{word}\" немає у словнику");
 
+                Console.WriteLine("Слово\t Переклад");
                 Console.WriteLine(vc[lang].Find(w => w.BWord == word));
             }
             catch (KeyNotFoundException)
@@ -541,7 +542,7 @@ namespace Dictionary
                 {
                     using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
                     {
-                        sw.WriteLine($"Словник: {lang}");
+                        sw.WriteLine($"Словник: {lang.Replace(" ", "")}\n");
                         sw.WriteLine("Слово\t Переклад");
                         sw.WriteLine(vc[lang].Find(w => w.BWord == word));
                     }
@@ -564,11 +565,6 @@ namespace Dictionary
                 Console.WriteLine(e.Message);
             }
         }
-
-
-        ///TO DO
-
-
 
 
         /*---Сутність меню + створити класи та наслідників---*/
