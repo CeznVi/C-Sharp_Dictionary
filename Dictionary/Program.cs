@@ -14,11 +14,15 @@ namespace Dictionary
             dic.DeserializeData();
 
 
-            dic.ShowWord("English - Ukrainian", "test");
-            //dic.ShowAllWord("English - Ukrainian");
-            dic.ExportData("English - Ukrainian", "test");
+            //dic.ShowWord("English - Ukrainian", "test");
 
-
+            while (true)
+            {
+                string lang = dic.SelectLanguage();
+                string word = dic.SelectWord(lang);
+                Console.WriteLine($"{word}, {lang}");
+               Console.ReadKey();
+            }
 
         }
     }

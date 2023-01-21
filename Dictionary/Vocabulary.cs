@@ -133,7 +133,7 @@ namespace Dictionary
         /// <returns>Список переводів слова</returns>
         public List<string> GetTransleteWordList(string lang, string word)
         {
-            
+
             List<string> WordList = new();
 
             if (vc[lang].Find(w => w.BWord == word) == null)
@@ -165,10 +165,122 @@ namespace Dictionary
                     Console.WriteLine(e.Message);
                 }
             }
-            
+
             return WordList;
         }
-        
+
+        /*---Повертають вибрану строку---*/
+        /// <summary>
+        /// Селектор словника
+        /// </summary>
+        /// <returns>Повертає назву словника</returns>
+        public string SelectLanguage()
+        {
+            Console.Clear();
+            List<string> LanguageList = GetLanguageList();
+
+            if (LanguageList.Count == 0)
+            {
+                return "";
+            }
+            else
+            {
+                Console.WriteLine("Виберіть словник із списку нижче");
+                for (int i = 0; i < LanguageList.Count; i++)
+                {
+                    Console.WriteLine($"{i} - {LanguageList[i]}");
+                }
+                try
+                {
+                    int selec = 0;
+                    while (true)
+                    {
+                        selec = int.Parse(Console.ReadLine());
+
+                        if (selec < LanguageList.Count && selec >= 0)
+                            break;
+                        else
+                            Console.WriteLine("Не вірний вибор");
+                    }
+                    Console.WriteLine($"Ви обрали: {LanguageList[selec]}");
+                    Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
+                    Console.ReadKey();
+                    return LanguageList[selec];
+                }
+                catch(System.FormatException)
+                {
+                    Console.WriteLine("Введені данні не мають бути порожніми");
+                    return SelectLanguage();
+                }
+                catch(ArgumentNullException)
+                {
+                    Console.WriteLine("Введені данні не мають бути порожніми");
+                    return SelectLanguage();
+                }
+
+            }
+        }
+
+        ///
+        public string SelectWord(string lang)
+        {
+            Console.Clear();
+            try
+            {
+                List<string> WordList = GetWordList(lang);
+
+                if (WordList.Count == 0) 
+                { 
+                    return ""; 
+                }
+                else
+                {
+                    Console.WriteLine("Виберіть слово із списку нижче");
+                    for (int i = 0; i < WordList.Count; i++)
+                    {
+                        Console.WriteLine($"{i} - {WordList[i]}");
+                    }
+                    int selec = 0;
+                    while (true)
+                    {
+                        selec = Int32.Parse(Console.ReadLine());
+                        if (selec < WordList.Count && selec >= 0)
+                            break;
+                        else
+                            Console.WriteLine("Не вірний вибор");
+                    }
+                    Console.WriteLine($"Ви обрали: {WordList[selec]}");
+                    Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
+                    Console.ReadKey();
+                    return WordList[selec];
+                }
+
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника {lang} не існує");
+                Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
+                Console.ReadKey();
+                return "";
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
+                Console.ReadKey();
+                return "";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
+                Console.ReadKey();
+                return "";
+            }
+
+        }
+
+
         /*---Друкують данні---*/
         ///ADD try CATCH TKEY == неіснує
         /// <summary>
