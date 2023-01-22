@@ -94,13 +94,28 @@ namespace Dictionary
         /*---Створюють об'єкти---*/
         public void CreateLanguage()
         {
-            Console.Clear();
+            
             try 
             {
-                Console.WriteLine("Виберіть мову базову мову словника");
-                string first = SelectFromList(languagesList);
-                s
+                while (true)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Виберіть базову мову словника");
+                    string first = SelectFromList(languagesList, languagesList.Count);
+                    Console.WriteLine("Виберіть мову перекладу");
+                    string second = SelectFromList(languagesList, languagesList.Count);
 
+                    if (first != second)
+                    {
+                        AddLanguage($"{first} - {second}");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Помилка. Не вірна назва словника.");
+                        Console.ReadKey();
+                    }
+                }
            
             }
             catch (Exception e) { Console.WriteLine(e.Message); }
@@ -207,6 +222,7 @@ namespace Dictionary
 
             if (LanguageList.Count == 0)
             {
+                CreateLanguage();
                 return "";
             }
             else
@@ -300,6 +316,8 @@ namespace Dictionary
         /// <returns>Повертає вибраний переклад</returns>
         public string SelectTranclete(string lang, string word)
         {
+            List<string> traslete = GetTransleteWordList(lang, word);
+
             return " ";
         }
 
@@ -374,6 +392,10 @@ namespace Dictionary
             catch(System.ArgumentException)
             {
                 Console.WriteLine($"Такий словник: \"{lang}\" вже існує");
+                Console.WriteLine("Спробуйте ще раз");
+                Console.ReadKey();
+                CreateLanguage();
+                
             }
             catch (Exception e)
             {
@@ -701,7 +723,13 @@ namespace Dictionary
         }
 
         /*---Допоміжні методи (уникнення копіпасту коду)---*/
-        private string SelectFromList(List<string> list)
+        /// <summary>
+        /// Дає змогу вибирати строку зі списка
+        /// </summary>
+        /// <param name="list">Список із чого вибирати</param>
+        /// <param name="forpage">Кількість результатів на сторінку</param>
+        /// <returns></returns>
+        private string SelectFromList(List<string> list, int forpage = 10)
         {
             try
             {
@@ -711,7 +739,7 @@ namespace Dictionary
                 {
                     Console.WriteLine($"{i} - {list[i]}");
 
-                    if (i % 10 == 0 && i != 0)
+                    if (i % forpage == 0 && i != 0)
                     {
                         Console.WriteLine("Для перегляду наступного списку натисніть будь яку клавішу");
                         Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
@@ -729,6 +757,8 @@ namespace Dictionary
 
                     if (i + 1 == list.Count)
                     {
+                        if (list.Count == forpage) break;
+                        
                         Console.WriteLine("Кінець списку");
                         Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
                         Console.WriteLine("Для повторного перегляду натисніть будь яку іншу клавішу");
@@ -759,12 +789,13 @@ namespace Dictionary
                 Console.WriteLine($"Ви обрали: {list[selec]}");
                 Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
                 Console.ReadKey();
+                Console.Clear();
                 return list[selec];
             }
             catch (Exception e) 
             {
                 Console.WriteLine(e.Message);
-                return "Erorr!";
+                return SelectFromList(list, forpage);
             }
         }
 

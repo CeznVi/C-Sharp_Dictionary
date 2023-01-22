@@ -12,7 +12,8 @@ namespace Dictionary
 
             Vocabulary dic = new();
 
-            dic.DeserializeData();
+            //dic.DeserializeData();
+
 
             //dic.AddLanguage(lang);
             //dic.ShowAllWord(lang);
@@ -39,28 +40,28 @@ namespace Dictionary
             //dic.SerializeData();
 
 
+            //while (true)
+            //{
+            //    string lang = dic.SelectLanguage();
+            //    string word = dic.SelectWord(lang);
+            //    Console.WriteLine($"{word}, {lang}");
+            //    Console.ReadKey();
+            //}
+
             while (true)
             {
-                string lang = dic.SelectLanguage();
-                string word = dic.SelectWord(lang);
-                Console.WriteLine($"{word}, {lang}");
-                Console.ReadKey();
+                dic.CreateLanguage();
+
+                //Console.ReadKey();
+                //Console.Clear();
+
+                Console.WriteLine("Для завершення натисніть ЕСК");
+                ConsoleKeyInfo cki = Console.ReadKey();
+                if (cki.Key == ConsoleKey.Escape) { Console.WriteLine("_"); break; }
+
             }
-
-            //while(true) 
-            //{
-            //    dic.CreateLanguage();
-
-            //    Console.ReadKey();
-            //    Console.Clear();
-
-            //    Console.WriteLine("Для завершення натисніть ЕСК");
-            //    ConsoleKeyInfo cki = Console.ReadKey();
-            //    if (cki.Key == ConsoleKey.Escape) { break; }
-
-            //}
-            //foreach(string s in dic.GetLanguageList())
-            //    Console.WriteLine(s);
+                foreach (string s in dic.GetLanguageList())
+                Console.WriteLine(s);
         }
     }
 }
