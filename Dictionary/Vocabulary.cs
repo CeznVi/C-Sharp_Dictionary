@@ -171,7 +171,7 @@ namespace Dictionary
 
         /*---Повертають вибрану строку---*/
         /// <summary>
-        /// Селектор словника
+        /// Повертає назву словника через його вибір зі списку
         /// </summary>
         /// <returns>Повертає назву словника</returns>
         public string SelectLanguage()
@@ -220,8 +220,11 @@ namespace Dictionary
 
             }
         }
-
-        ///
+        /// <summary>
+        /// Повертає слово через його вибор із списку
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <returns>Повертає слово</returns>
         public string SelectWord(string lang)
         {
             Console.Clear();
@@ -239,6 +242,37 @@ namespace Dictionary
                     for (int i = 0; i < WordList.Count; i++)
                     {
                         Console.WriteLine($"{i} - {WordList[i]}");
+
+                        if (i % 10 == 0 && i != 0)
+                        {
+                            Console.WriteLine("Для перегляду наступного списку слів натисніть будь яку клавішу");
+                            Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
+                            ConsoleKeyInfo keyEsc = Console.ReadKey();
+                            if (keyEsc.Key == ConsoleKey.Escape) 
+                            {
+                                Console.WriteLine("Введіть номер слова");
+                                break; 
+                            }
+                            Console.Clear();
+                            Console.WriteLine("Виберіть слово із списку нижче");
+                        }
+
+                        if (i + 1 == WordList.Count)
+                        {
+                            Console.WriteLine("Кінець списку");
+                            Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
+                            Console.WriteLine("Для повторного перегляду натисніть будь яку іншу клавішу");
+                            
+                            ConsoleKeyInfo keyEsc = Console.ReadKey();
+                            if (keyEsc.Key == ConsoleKey.Escape)
+                            {
+                                Console.WriteLine("Введіть номер слова");
+                                break;
+                            }
+                            i = 0;
+                            Console.Clear();
+                            Console.WriteLine("Виберіть слово із списку нижче");
+                        }
                     }
                     int selec = 0;
                     while (true)
@@ -277,6 +311,16 @@ namespace Dictionary
                 Console.ReadKey();
                 return "";
             }
+        }
+
+        /// <summary>
+        /// Повертає переклад через вибір його із списку
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="word">Слово</param>
+        /// <returns>Повертає вибраний переклад</returns>
+        public string SelectTranclete(string lang, string word)
+        {
 
         }
 
