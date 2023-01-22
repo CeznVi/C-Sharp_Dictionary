@@ -17,7 +17,7 @@ namespace Dictionary
         /// <summary>
         /// Контейнер в якому зберігаються базові назви мов для словників
         /// </summary>
-        private List<string> languagesList = new()
+        private readonly List<string> languagesList = new()
         {
             "Українська",
             "Російська",
@@ -26,72 +26,29 @@ namespace Dictionary
             "Німецька",
         };
 
-        /*-----------------------Серіалізація--------------------------*/
-        /// <summary>
-        /// Шлях до директорії де зберігати серіалізовані данні
-        /// </summary>
-        private readonly string dirPath = "../../../../SaveFile";
-        /// <summary>
-        /// Назва файлу для збереження серіалізованих данних
-        /// </summary>
-        private readonly string fileName = "/SaveData.xml";
-        /// <summary>
-        /// Збереження(серіалізація) данних у ХМЛ файл за допомогою XmlSerializer
-        /// </summary>
-        public void SerializeData()
-        {
-            try
-            {
-                if (!Directory.Exists(dirPath))
-                {
-                    Directory.CreateDirectory(dirPath);
-                }
-
-                XmlSerializer serializer = new(typeof(SerializableDictionary<string, List<Word>>));
-
-                using (Stream stream = File.Create(dirPath + fileName))
-                {
-                    serializer.Serialize(stream, vc);
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-        /// <summary>
-        /// Завантаження серіалізованих данних з ХМЛ файлу
-        /// </summary>
-        public void DeserializeData()
-        {
-            try
-            {
-                if (!File.Exists(dirPath + fileName))
-                    throw new FileNotFoundException($"Файл: {fileName} не створений. Робота додатка не можлива!");
-
-                XmlSerializer serializer = new(typeof(SerializableDictionary<string, List<Word>>));
-                using (Stream stream = File.OpenRead(dirPath + fileName))
-                {
-                    vc = (SerializableDictionary<string, List<Word>>)serializer.Deserialize(stream);
-                }
-
-            }
-            catch (FileNotFoundException e)
-            {
-                Console.Clear();
-                Console.WriteLine(e.Message);
-                Console.ReadKey();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-        }
-
         /*---------------------------Методи----------------------------*/
+        ///>>>>>>>>>>>>>>TODO
+        ///Переклає
+        public void Translete(string lang)
+        {
+            Console.WriteLine("Введіть що потрібно перекласти");
+            string input = Console.ReadLine();
+            string output = "";
+
+            foreach(Word word in vc[lang]) 
+            { 
+                if(input == word.BWord)
+                {
+                    output += word.TWord.ElementAt(0); 
+                }
+            
+            }
+        }
+
         /*---Створюють об'єкти---*/
+        /// <summary>
+        /// Створює словник
+        /// </summary>
         public void CreateLanguage()
         {
             
@@ -119,6 +76,92 @@ namespace Dictionary
            
             }
             catch (Exception e) { Console.WriteLine(e.Message); }
+        }
+
+        /*---Додають данні---*/
+        /// <summary>
+        /// Додати Словник (Мова - мова перекладу) до колекції
+        /// </summary>
+        /// <param name="language">Мова - мова перекладу</param>
+        public void AddLanguage(string lang)
+        {
+            try
+            {
+                if (lang != null)
+                    vc.Add(lang, new List<Word>());
+            }
+            catch (System.ArgumentException)
+            {
+                Console.WriteLine($"Такий словник: \"{lang}\" вже існує");
+                Console.WriteLine("Спробуйте ще раз");
+                Console.ReadKey();
+                CreateLanguage();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        /// <summary>
+        /// Додати слово(як об'єкт) до колекції
+        /// </summary>
+        /// <param name="lang">Словник(мова - мова переклад)</param>
+        /// <param name="wordClass">Контейнер слова</param>
+        public void AddWord(string lang, Word wordClass)
+        {
+            try
+            {
+                if (vc[lang].Find(w => w.BWord == wordClass.BWord) != null)
+                    throw new ArgumentException($"Слово \"{wordClass.BWord}\" вже є у словнику");
+                else
+                {
+                    vc[lang].Add(wordClass);
+                    vc[lang].Sort();
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника {lang} не існує");
+            }
+            catch (ArgumentNullException e) { Console.WriteLine(e.Message); }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        /// <summary>
+        /// Додати переклад(до певного слова) до колекції
+        /// </summary>
+        /// <param name="lang">Словник(мова - мова переклад)</param>
+        /// <param name="word">Слово</param>
+        /// <param name="trans">Переклад</param>
+        public void AddTranslete(string lang, string word, string trans)
+        {
+            try
+            {
+                if (vc[lang].Find(w => w.BWord == word).TWord.Find(w => w.Equals(trans)) != null)
+                    throw new ArgumentException(vc[lang].Find(w => w.BWord == word).BWord);
+                else
+                    (vc[lang].Find(w => w.BWord == word)).AddTranslete(trans);
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine($"Словника {lang} не існує");
+            }
+            catch (ArgumentNullException e) { Console.WriteLine(e.Message); }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine($"Переклад \"{trans}\" вже є у слові {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         /*---Повертають списки---*/
@@ -306,8 +349,6 @@ namespace Dictionary
                 return "";
             }
         }
-
-        /*---TO DO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!---*/
         /// <summary>
         /// Повертає переклад через вибір його із списку
         /// </summary>
@@ -316,9 +357,18 @@ namespace Dictionary
         /// <returns>Повертає вибраний переклад</returns>
         public string SelectTranclete(string lang, string word)
         {
-            List<string> traslete = GetTransleteWordList(lang, word);
+            try
+            {
+                List<string> temp = GetTransleteWordList(lang, word);
+                return SelectFromList(temp, temp.Count);
+            }
+            catch(Exception e) 
+            {
+                Console.WriteLine(e.Message);
+                return "ERORR!";
+            }
 
-            return " ";
+            
         }
 
         /*---Друкують данні---*/
@@ -370,92 +420,6 @@ namespace Dictionary
             catch (ArgumentException e)
             {
                 Console.WriteLine(e.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-        
-        /*---Додають данні---*/
-        /// <summary>
-        /// Додати Словник (Мова - мова перекладу)
-        /// </summary>
-        /// <param name="language">Мова - мова перекладу</param>
-        public void AddLanguage(string lang)
-        {
-            try
-            {
-                if (lang != null)
-                    vc.Add(lang, new List<Word>());
-            }
-            catch(System.ArgumentException)
-            {
-                Console.WriteLine($"Такий словник: \"{lang}\" вже існує");
-                Console.WriteLine("Спробуйте ще раз");
-                Console.ReadKey();
-                CreateLanguage();
-                
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-        /// <summary>
-        /// Додати у відповідник словник слово і слово переклад
-        /// </summary>
-        /// <param name="lang">Словник(мова - мова переклад)</param>
-        /// <param name="wordClass">Контейнер слова</param>
-        public void AddWord(string lang, Word wordClass)
-        {
-            try
-            {
-                if (vc[lang].Find(w => w.BWord == wordClass.BWord) != null)
-                    throw new ArgumentException($"Слово \"{wordClass.BWord}\" вже є у словнику");
-                else
-                {
-                    vc[lang].Add(wordClass);
-                    vc[lang].Sort();
-                }
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine($"Словника {lang} не існує");
-            }
-            catch (ArgumentNullException e) { Console.WriteLine(e.Message); }
-            catch (ArgumentException e) 
-            { 
-                Console.WriteLine(e.Message); 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-        /// <summary>
-        /// Додати переклад до словника[слово]+переклад
-        /// </summary>
-        /// <param name="lang">Словник(мова - мова переклад)</param>
-        /// <param name="word">Слово</param>
-        /// <param name="trans">Переклад</param>
-        public void AddTranslete(string lang, string word, string trans)
-        {
-            try
-            {
-                if (vc[lang].Find(w => w.BWord == word).TWord.Find(w => w.Equals(trans)) != null)
-                    throw new ArgumentException(vc[lang].Find(w => w.BWord == word).BWord);
-                else
-                    (vc[lang].Find(w => w.BWord == word)).AddTranslete(trans);
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine($"Словника {lang} не існує");
-            }
-            catch (ArgumentNullException e) { Console.WriteLine(e.Message); }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine($"Переклад \"{trans}\" вже є у слові {e.Message}");
             }
             catch (Exception e)
             {
@@ -799,6 +763,69 @@ namespace Dictionary
             }
         }
 
-        /*---Сутність меню + створити класи та наслідників---*/
+        /*-----------------------Серіалізація--------------------------*/
+        /// <summary>
+        /// Шлях до директорії де зберігати серіалізовані данні
+        /// </summary>
+        private readonly string dirPath = "../../../../SaveFile";
+        /// <summary>
+        /// Назва файлу для збереження серіалізованих данних
+        /// </summary>
+        private readonly string fileName = "/SaveData.xml";
+        /// <summary>
+        /// Збереження(серіалізація) данних у ХМЛ файл за допомогою XmlSerializer
+        /// </summary>
+        public void SerializeData()
+        {
+            try
+            {
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+
+                XmlSerializer serializer = new(typeof(SerializableDictionary<string, List<Word>>));
+
+                using (Stream stream = File.Create(dirPath + fileName))
+                {
+                    serializer.Serialize(stream, vc);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        /// <summary>
+        /// Завантаження серіалізованих данних з ХМЛ файлу
+        /// </summary>
+        public void DeserializeData()
+        {
+            try
+            {
+                if (!File.Exists(dirPath + fileName))
+                    throw new FileNotFoundException($"Файл: {fileName} не створений.");
+
+                XmlSerializer serializer = new(typeof(SerializableDictionary<string, List<Word>>));
+                using (Stream stream = File.OpenRead(dirPath + fileName))
+                {
+                    vc = (SerializableDictionary<string, List<Word>>)serializer.Deserialize(stream);
+                }
+
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.Clear();
+                Console.WriteLine(e.Message);
+                Console.ReadKey();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+
     }
 }
