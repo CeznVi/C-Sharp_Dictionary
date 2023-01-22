@@ -47,6 +47,20 @@ namespace Dictionary
                 Console.ReadKey();
             }
 
+            //while(true) 
+            //{
+            //    dic.CreateLanguage();
+
+            //    Console.ReadKey();
+            //    Console.Clear();
+
+            //    Console.WriteLine("Для завершення натисніть ЕСК");
+            //    ConsoleKeyInfo cki = Console.ReadKey();
+            //    if (cki.Key == ConsoleKey.Escape) { break; }
+
+            //}
+            //foreach(string s in dic.GetLanguageList())
+            //    Console.WriteLine(s);
         }
     }
 }

@@ -14,6 +14,17 @@ namespace Dictionary
         /// Словник (вдосконалений Dictionary для підтримки сериалізації)
         /// </summary>
         public SerializableDictionary<string, List<Word>> vc = new();
+        /// <summary>
+        /// Контейнер в якому зберігаються базові назви мов для словників
+        /// </summary>
+        private List<string> languagesList = new()
+        {
+            "Українська",
+            "Російська",
+            "Англійська",
+            "Французька",
+            "Німецька",
+        };
 
         /*-----------------------Серіалізація--------------------------*/
         /// <summary>
@@ -80,6 +91,21 @@ namespace Dictionary
         }
 
         /*---------------------------Методи----------------------------*/
+        /*---Створюють об'єкти---*/
+        public void CreateLanguage()
+        {
+            Console.Clear();
+            try 
+            {
+                Console.WriteLine("Виберіть мову базову мову словника");
+                string first = SelectFromList(languagesList);
+                s
+
+           
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+        }
+
         /*---Повертають списки---*/
         /// <summary>
         /// Повернути список словників (Мова - мова перекладу)
@@ -238,55 +264,7 @@ namespace Dictionary
                 }
                 else
                 {
-                    Console.WriteLine("Виберіть слово із списку нижче");
-                    for (int i = 0; i < WordList.Count; i++)
-                    {
-                        Console.WriteLine($"{i} - {WordList[i]}");
-
-                        if (i % 10 == 0 && i != 0)
-                        {
-                            Console.WriteLine("Для перегляду наступного списку слів натисніть будь яку клавішу");
-                            Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
-                            ConsoleKeyInfo keyEsc = Console.ReadKey();
-                            if (keyEsc.Key == ConsoleKey.Escape) 
-                            {
-                                Console.WriteLine("Введіть номер слова");
-                                break; 
-                            }
-                            Console.Clear();
-                            Console.WriteLine("Виберіть слово із списку нижче");
-                        }
-
-                        if (i + 1 == WordList.Count)
-                        {
-                            Console.WriteLine("Кінець списку");
-                            Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
-                            Console.WriteLine("Для повторного перегляду натисніть будь яку іншу клавішу");
-                            
-                            ConsoleKeyInfo keyEsc = Console.ReadKey();
-                            if (keyEsc.Key == ConsoleKey.Escape)
-                            {
-                                Console.WriteLine("Введіть номер слова");
-                                break;
-                            }
-                            i = 0;
-                            Console.Clear();
-                            Console.WriteLine("Виберіть слово із списку нижче");
-                        }
-                    }
-                    int selec = 0;
-                    while (true)
-                    {
-                        selec = Int32.Parse(Console.ReadLine());
-                        if (selec < WordList.Count && selec >= 0)
-                            break;
-                        else
-                            Console.WriteLine("Не вірний вибор");
-                    }
-                    Console.WriteLine($"Ви обрали: {WordList[selec]}");
-                    Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
-                    Console.ReadKey();
-                    return WordList[selec];
+                    return SelectFromList(WordList);
                 }
 
             }
@@ -313,6 +291,7 @@ namespace Dictionary
             }
         }
 
+        /*---TO DO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!---*/
         /// <summary>
         /// Повертає переклад через вибір його із списку
         /// </summary>
@@ -321,9 +300,8 @@ namespace Dictionary
         /// <returns>Повертає вибраний переклад</returns>
         public string SelectTranclete(string lang, string word)
         {
-
+            return " ";
         }
-
 
         /*---Друкують данні---*/
         ///ADD try CATCH TKEY == неіснує
@@ -722,6 +700,73 @@ namespace Dictionary
             }
         }
 
+        /*---Допоміжні методи (уникнення копіпасту коду)---*/
+        private string SelectFromList(List<string> list)
+        {
+            try
+            {
+                Console.WriteLine("Виберіть із списку нижче");
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Console.WriteLine($"{i} - {list[i]}");
+
+                    if (i % 10 == 0 && i != 0)
+                    {
+                        Console.WriteLine("Для перегляду наступного списку натисніть будь яку клавішу");
+                        Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
+                        
+                        ConsoleKeyInfo keyEsc = Console.ReadKey();
+                        if (keyEsc.Key == ConsoleKey.Escape)
+                        {
+                           Console.WriteLine("_");
+                           Console.WriteLine("Введіть номер");
+                           break;
+                        }
+                        Console.Clear();
+                        Console.WriteLine("Виберіть із списку нижче");
+                    }
+
+                    if (i + 1 == list.Count)
+                    {
+                        Console.WriteLine("Кінець списку");
+                        Console.WriteLine("Для завершення перегляду натисніть клавішу ESC");
+                        Console.WriteLine("Для повторного перегляду натисніть будь яку іншу клавішу");
+
+                        ConsoleKeyInfo keyEsc = Console.ReadKey();
+                        if (keyEsc.Key == ConsoleKey.Escape)
+                        {
+                            Console.WriteLine("_");
+                            Console.WriteLine("Введіть номер");
+                            break;
+                        }
+                        i = 0;
+
+                        Console.Clear();
+                        Console.WriteLine("Виберіть із списку нижче");
+                    }
+                }
+
+                int selec = 0;
+                while (true)
+                {
+                    selec = Int32.Parse(Console.ReadLine());
+                    if (selec < list.Count && selec >= 0)
+                        break;
+                    else
+                        Console.WriteLine("Не вірний вибор");
+                }
+                Console.WriteLine($"Ви обрали: {list[selec]}");
+                Console.WriteLine("Натисніть будь яку клавішу щоб продовжити");
+                Console.ReadKey();
+                return list[selec];
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.Message);
+                return "Erorr!";
+            }
+        }
 
         /*---Сутність меню + створити класи та наслідників---*/
     }
