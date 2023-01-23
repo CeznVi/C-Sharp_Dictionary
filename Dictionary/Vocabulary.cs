@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -13,7 +14,7 @@ namespace Dictionary
         /// <summary>
         /// Словник (вдосконалений Dictionary для підтримки сериалізації)
         /// </summary>
-        public SerializableDictionary<string, List<Word>> vc = new();
+        private SerializableDictionary<string, List<Word>> vc = new();
         /// <summary>
         /// Контейнер в якому зберігаються базові назви мов для словників
         /// </summary>
@@ -27,10 +28,32 @@ namespace Dictionary
         };
 
         /*---------------------------Методи----------------------------*/
-        ///>>>>>>>>>>>>>>TODO
-        ///Переклаcдає
+        /*---Переклад---*/
+        /// <summary>
+        /// Отримання від користувача слово, друк перекладу
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <returns>пошукове слово</returns>
+        public string TransleteWord(string lang)
+        {
+            Console.Clear();
+            Console.WriteLine("Введіть слово для пошуку перекладу");
+            string word = Console.ReadLine();
+            ShowWord(lang, word);
+            Console.ReadKey();
+            if (isExistWordInVoc(lang, word) == true) return word;
+            else return string.Empty;
+        }
+        /// <summary>
+        /// Тестова функція для перекладу реченнь. Нажаль є багато нюансів і
+        /// потрібно більше часу і знань, щоб реалізувати повністю функціонал
+        /// </summary>
+        /// <param name="lang">Словник</param>
         public void Translete(string lang)
         {
+            Console.Clear();
+            Console.WriteLine("Переклад багьох слів (речень) працює у тестовому режимі. Відмінок вводимих слів відіграє роль," +
+                "також існує проблема із слово-сполученнями");
             Console.WriteLine("Введіть що потрібно перекласти");
             
             string input = Console.ReadLine();
@@ -60,7 +83,8 @@ namespace Dictionary
 
             Console.WriteLine($"Оригінал:\n{input}");
             Console.WriteLine($"Переклад:\n{output}");
-
+            Console.WriteLine("Для продовження натисніть будь яку клавішу");
+            Console.ReadKey();
         }
 
         /*---Створюють об'єкти---*/
@@ -397,8 +421,12 @@ namespace Dictionary
         /// <param name="lang">Мова - мова переклад</param>
         public void ShowAllWord(string lang) 
         {
+            
             try
             {
+                if (vc[lang].Count == 0)
+                    throw new Exception($"У словнику {lang} ще немає слів");
+
                 if (lang != null)
                     foreach (Word item in vc[lang])
                         Console.WriteLine(item);
@@ -664,6 +692,7 @@ namespace Dictionary
         /// <param name="word">Слово</param>
         public void ExportData(string lang, string word)
         {
+            Console.Clear();
             try
             {
                 if (!Directory.Exists(dirPathExp))
@@ -685,6 +714,15 @@ namespace Dictionary
                         sw.WriteLine(vc[lang].Find(w => w.BWord == word));
                     }
                 }
+
+                DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());
+                string path = d.Parent.ToString();
+                path = path.Remove(path.Length - 20) + @$"ExpotData\{lang}_{word}.txt";
+
+                Console.WriteLine("Данні успішно експортовані у файл який знаходиться за адресою:");
+                Console.WriteLine(path);
+                Console.WriteLine("Для прожовження натисніть будь яку клавішу");
+                Console.ReadKey();
             }
             catch (KeyNotFoundException)
             {
@@ -780,7 +818,26 @@ namespace Dictionary
                 return SelectFromList(list, forpage);
             }
         }
-
+        /// <summary>
+        /// Перевіряє наявності слова word у словнику
+        /// </summary>
+        /// <param name="lang">Словник</param>
+        /// <param name="word">Перевіряєме слово</param>
+        /// <returns>Повертає true якщо так слово є</returns>
+        private bool isExistWordInVoc(string lang, string word)
+        {
+            try
+            {
+                if (vc[lang].Find(w => w.BWord == word) != null) return true;
+                else return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.ReadKey();
+                return false;
+            }
+        }
         /*-----------------------Серіалізація--------------------------*/
         /// <summary>
         /// Шлях до директорії де зберігати серіалізовані данні
@@ -836,7 +893,10 @@ namespace Dictionary
             {
                 Console.Clear();
                 Console.WriteLine(e.Message);
+                Console.WriteLine("Збережених данних не знайдено. Зараз буде ствоненно перший словник");
+                Console.WriteLine("Для продовження роботи натисніть будь яку клавішу");
                 Console.ReadKey();
+                CreateLanguage();
             }
             catch (Exception e)
             {

@@ -2,89 +2,10 @@
 <dictionary>
   <item>
     <key>
-      <string>Ukrainian - English</string>
+      <string>Українська - Англійська</string>
     </key>
     <value>
-      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <Word>
-          <BWord>бумага</BWord>
-          <TWord>
-            <string>papper</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>Вася</BWord>
-          <TWord>
-            <string>Vasya</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>дім</BWord>
-          <TWord>
-            <string>home</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>Іван</BWord>
-          <TWord>
-            <string>Ivan</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>кіт</BWord>
-          <TWord>
-            <string>cat</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>ліс</BWord>
-          <TWord>
-            <string>wood</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>міст</BWord>
-          <TWord>
-            <string>bridge</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>ніс</BWord>
-          <TWord>
-            <string>nose</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>обід</BWord>
-          <TWord>
-            <string>breakfast</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>око</BWord>
-          <TWord>
-            <string>eye</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>пес</BWord>
-          <TWord>
-            <string>dog</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>річка</BWord>
-          <TWord>
-            <string>river</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>стіл</BWord>
-          <TWord>
-            <string>table</string>
-          </TWord>
-        </Word>
-      </ArrayOfWord>
+      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
     </value>
   </item>
 </dictionary>
