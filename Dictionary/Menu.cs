@@ -24,44 +24,6 @@ namespace Dictionary
             return " ".Xn(lenSpace / 2) + data + " ".Xn(lenSpace - lenSpace / 2);
         }
 
-        //// Метод розширення який замінює шукає слова та замінює слова у стрінгу
-        public static string ReplaceWords(this string str, string word, string replaceW = "*")
-        {
-            string returnText = "";
-            char[] separators = new char[] { ' ', '\n' };
-            char[] separators1 = new char[] { ' ', '.', ',', ':', ';' };
-            int countStopWords = 0;
-
-            //ділимо наше речення на суб речення по ознаку " " на кінці речення
-            string[] textm = str.Split(separators, StringSplitOptions.TrimEntries);
-            string[] textm2 = word.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
-            for (int i = 0; i < textm.Length; i++)
-            {
-                for (int j = 0; j < textm2.Length; j++)
-                {
-                    if ((textm[i].Trim(separators1)).ToLower() == textm2[j])
-                    {
-                        textm[i] = replaceW.Xn(textm2[j].Length);
-                        countStopWords++;
-                    }
-                }
-            }
-
-            for (int i = 0; i < textm.Length; i++)
-            {
-                returnText += textm[i] + " ";
-            }
-
-            string separatorP = new(separators1[3], 75);
-
-            Console.WriteLine($"\n{separatorP}");
-            Console.WriteLine($"Кількість замiн слів |{countStopWords}|  {replaceW} -> {word}");
-            Console.WriteLine($"{separatorP}\n");
-
-            return returnText;
-        }
-
     }
 
     /// <summary>

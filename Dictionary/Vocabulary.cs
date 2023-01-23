@@ -28,21 +28,39 @@ namespace Dictionary
 
         /*---------------------------Методи----------------------------*/
         ///>>>>>>>>>>>>>>TODO
-        ///Переклає
+        ///Переклаcдає
         public void Translete(string lang)
         {
             Console.WriteLine("Введіть що потрібно перекласти");
-            string input = Console.ReadLine();
-            string output = "";
-
-            foreach(Word word in vc[lang]) 
-            { 
-                if(input == word.BWord)
-                {
-                    output += word.TWord.ElementAt(0); 
-                }
             
+            string input = Console.ReadLine();
+            char[] separators = new char[] { '.', ',', ':', ';', '?', '!', '\n' };
+
+            string[] arrInput =  input.Split(' ', StringSplitOptions.TrimEntries);
+
+            string output = "";
+            for (int i = 0; i < arrInput.Length; i++)
+            {
+                if ((vc[lang].Find(w => w.BWord.ToLower() == arrInput[i].ToLower().TrimEnd(separators))) != null)
+                {
+                    Word word = vc[lang].Find(w => w.BWord.ToLower() == arrInput[i].ToLower().TrimEnd(separators));
+                    output += word.TWord[0];
+
+                    if (separators.Contains(arrInput[i].ElementAt(arrInput[i].Length -1)))
+                    {
+                        output += arrInput[i].ElementAt(arrInput[i].Length -1) + " ";
+                    }
+                    else
+                        output += " ";
+
+                }
+                else
+                    output += arrInput[i] + " ";
             }
+
+            Console.WriteLine($"Оригінал:\n{input}");
+            Console.WriteLine($"Переклад:\n{output}");
+
         }
 
         /*---Створюють об'єкти---*/

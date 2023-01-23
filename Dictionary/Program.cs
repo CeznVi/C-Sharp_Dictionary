@@ -13,17 +13,18 @@ namespace Dictionary
             Vocabulary dic = new();
 
             dic.DeserializeData();
-            dic.AddWord("Ukrainian - English", new Word("тест", "test"));
-            dic.AddTranslete("Ukrainian - English", "тест", "123ф");
-            dic.AddTranslete("Ukrainian - English", "тест", "1231");
-            dic.AddTranslete("Ukrainian - English", "тест", "1233");
-            dic.AddTranslete("Ukrainian - English", "тест", "1235");
+            dic.AddWord("Ukrainian - English", new Word("Добрий ранок", "Good morning"));
+            //dic.AddTranslete("Ukrainian - English", "тест", "123ф");
+            //dic.AddTranslete("Ukrainian - English", "тест", "1231");
+            //dic.AddTranslete("Ukrainian - English", "тест", "1233");
+            //dic.AddTranslete("Ukrainian - English", "тест", "1235");
+            //dic.ShowAllWord("Ukrainian - English");
+            ////dic.EditTranslete("Ukrainian - English", "тест", dic.SelectTranclete("Ukrainian - English", "тест"), "ХХХРРРЕЕЕНННЬ");
+            ////Console.WriteLine("\n\nafter ");
+            ////dic.ShowWord("Ukrainian - English", "тест");
+            //Console.ReadKey();
+            //Console.Clear();
             dic.ShowAllWord("Ukrainian - English");
-            //dic.EditTranslete("Ukrainian - English", "тест", dic.SelectTranclete("Ukrainian - English", "тест"), "ХХХРРРЕЕЕНННЬ");
-            //Console.WriteLine("\n\nafter ");
-            //dic.ShowWord("Ukrainian - English", "тест");
-            Console.ReadKey();
-            Console.Clear();
             dic.Translete("Ukrainian - English");
             
             
