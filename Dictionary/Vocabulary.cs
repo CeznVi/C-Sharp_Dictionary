@@ -428,7 +428,7 @@ namespace Dictionary
 
                 if (lang != null)
                 {
-                    Console.WriteLine("Слово\t Переклад");
+                    Console.WriteLine("Слово\t  Переклад");
 
                     foreach (Word item in vc[lang])
                         Console.WriteLine(item);
