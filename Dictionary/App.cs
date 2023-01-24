@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,10 +178,11 @@ namespace Dictionary
                             break;
                         }
                     case 3:
-                        lang = dic.SelectLanguage();
-                        break;
-
-
+                        {
+                            Console.Clear();
+                            DelW();
+                            break;
+                        }
                     case 7:
                         exit = true;
                         return;
@@ -293,14 +295,35 @@ namespace Dictionary
             dic.ShowWord(lang, word);
             PressAnyKey();
         }
-
+        /// <summary>
+        /// Метод зміннює слово
+        /// </summary>
         private void EdtW()
         {
             Console.WriteLine("Виберіть слово для його зміни");
             string word = dic.SelectWord(lang);
 
+            Console.WriteLine($"Замінюємо слово \"{word}\"");
+            string replece = GetWordFromUser();
+            dic.EditWord(lang, word, replece);
+            dic.SerializeData();
+            Console.WriteLine($"Заміна слова \"{word}\" на слово \"{replece}\" успішно виконана.");
+            PressAnyKey();
         }
-        
+        /// <summary>
+        /// Метод видаляє слово
+        /// </summary>
+        private void DelW()
+        {
+            Console.WriteLine("Виберіть слово для його видалення");
+            string word = dic.SelectWord(lang);
+
+            Console.WriteLine($"Видаляємо слово \"{word}\"");
+            dic.RemoveWord(lang, word);
+            dic.SerializeData();
+            Console.WriteLine($"Cлово \"{word}\" успішно видалено зі словника \"{lang}\".");
+            PressAnyKey();
+        }
 
     }
 }

@@ -21,6 +21,18 @@
           </TWord>
         </Word>
         <Word>
+          <BWord>миш</BWord>
+          <TWord>
+            <string>mouse</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>небо</BWord>
+          <TWord>
+            <string>sky</string>
+          </TWord>
+        </Word>
+        <Word>
           <BWord>ніс</BWord>
           <TWord>
             <string>nose</string>
@@ -40,6 +52,12 @@
           </TWord>
         </Word>
         <Word>
+          <BWord>помідор</BWord>
+          <TWord>
+            <string>tomatto</string>
+          </TWord>
+        </Word>
+        <Word>
           <BWord>стіл</BWord>
           <TWord>
             <string>table</string>
@@ -49,6 +67,12 @@
           <BWord>часи</BWord>
           <TWord>
             <string>clock</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>чашка</BWord>
+          <TWord>
+            <string>cup</string>
           </TWord>
         </Word>
         <Word>

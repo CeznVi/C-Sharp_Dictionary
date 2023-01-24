@@ -778,6 +778,7 @@ namespace Dictionary
                         Console.Clear();
                         Console.WriteLine("Виберіть із списку нижче");
                     }
+                    
 
                     if (i + 1 == list.Count)
                     {
@@ -794,6 +795,7 @@ namespace Dictionary
                             Console.WriteLine("Введіть номер");
                             break;
                         }
+
                         i = -1;
 
                         Console.Clear();
