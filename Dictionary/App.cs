@@ -76,6 +76,9 @@ namespace Dictionary
                     case 3:
                            lang = dic.SelectLanguage();
                         break;
+                    case 4:
+                        ManageLang();
+                        break;
                     case 5:
                         exit = true;
                         break;
@@ -243,47 +246,30 @@ namespace Dictionary
                     case 0:
                         {
                             Console.Clear();
-                            dic.ShowAllWord(lang);
+                            ShowLangList();
                             PressAnyKey();
                             break;
                         }
                     case 1:
                         {
                             Console.Clear();
-                            AddW();
+                            dic.CreateLanguage();
+                            dic.SerializeData();
                             break;
                         }
                     case 2:
                         {
                             Console.Clear();
-                            EdtW();
+                            
                             break;
                         }
                     case 3:
                         {
                             Console.Clear();
-                            DelW();
+                            
                             break;
                         }
                     case 4:
-                        {
-                            Console.Clear();
-                            AddTrans();
-                            break;
-                        }
-                    case 5:
-                        {
-                            Console.Clear();
-                            EdtTrans();
-                            break;
-                        }
-                    case 6:
-                        {
-                            Console.Clear();
-                            DelTrans();
-                            break;
-                        }
-                    case 7:
                         exit = true;
                         return;
                     default:
@@ -363,7 +349,7 @@ namespace Dictionary
             while (true)
             {
                 Console.WriteLine("Введіть слово переклад");
-                string trans = Console.ReadLine();
+                string trans = Console.ReadLine().Trim();
 
                 if (trans != string.Empty)
                 {
@@ -385,7 +371,7 @@ namespace Dictionary
             while (true)
             {
                 Console.WriteLine("Введіть слово");
-                word = Console.ReadLine();
+                word = Console.ReadLine().Trim();
 
                 if (word != string.Empty && dic.isExistWordInVoc(lang, word) != true)
                     break;
@@ -493,6 +479,17 @@ namespace Dictionary
             dic.SerializeData();
             Console.WriteLine($"У слові \"{word}\" успішно видалено переклад \"{translete}\".");
             PressAnyKey();
+        }
+        /// <summary>
+        /// Показує всі назви словників
+        /// </summary>
+        private void ShowLangList()
+        {
+            Console.WriteLine("Словники які є у системі:");
+            foreach(string s in dic.GetLanguageList()) 
+            {
+                Console.WriteLine(s);
+            }
         }
     }
 }
