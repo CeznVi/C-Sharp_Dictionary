@@ -421,7 +421,6 @@ namespace Dictionary
         /// <param name="lang">Мова - мова переклад</param>
         public void ShowAllWord(string lang) 
         {
-            
             try
             {
                 if (vc[lang].Count == 0)

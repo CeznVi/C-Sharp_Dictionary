@@ -21,6 +21,19 @@
           </TWord>
         </Word>
         <Word>
+          <BWord>лампочка</BWord>
+          <TWord>
+            <string>lamp</string>
+            <string>lampochka</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>мед</BWord>
+          <TWord>
+            <string>honey</string>
+          </TWord>
+        </Word>
+        <Word>
           <BWord>миш</BWord>
           <TWord>
             <string>mouse</string>
