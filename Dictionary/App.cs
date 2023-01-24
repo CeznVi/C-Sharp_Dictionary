@@ -45,8 +45,8 @@ namespace Dictionary
             while (!exit)
             {
                 Console.Clear();
-                WhereAreYou(); 
-                
+                WhereAreYou();
+
                 int a = ConsoleMenu.SelectVertical(HPosition.Center,
                                     VPosition.Top,
                                     HorizontalAlignment.Center,
@@ -56,10 +56,10 @@ namespace Dictionary
                 {
                     case 0:
                         {
-                            if(lang == string.Empty) { lang = dic.SelectLanguage(); }
+                            if (lang == string.Empty) { lang = dic.SelectLanguage(); }
                             word = dic.TransleteWord(lang);
 
-                            if(word != string.Empty) 
+                            if (word != string.Empty)
                             {
                                 ExportData();
                             }
@@ -74,7 +74,7 @@ namespace Dictionary
                         ManageWord();
                         break;
                     case 3:
-                           lang = dic.SelectLanguage();
+                        lang = dic.SelectLanguage();
                         break;
                     case 4:
                         ManageLang();
@@ -87,7 +87,7 @@ namespace Dictionary
                         break;
                 }
             }
-           
+
             Console.Clear();
         }
         /// <summary>
@@ -115,7 +115,7 @@ namespace Dictionary
                 {
                     case 0:
                         {
-                            dic.ExportData(lang,word);
+                            dic.ExportData(lang, word);
                             return;
                         }
                     case 1:
@@ -260,13 +260,13 @@ namespace Dictionary
                     case 2:
                         {
                             Console.Clear();
-                            
+                            EdtLang();
                             break;
                         }
                     case 3:
                         {
                             Console.Clear();
-                            
+
                             break;
                         }
                     case 4:
@@ -279,7 +279,7 @@ namespace Dictionary
             }
             Console.Clear();
         }
-        
+
 
         /*--------------------Допоміжні методи----------------------*/
         /// <summary>
@@ -344,7 +344,7 @@ namespace Dictionary
         /// </summary>
         /// ///
         /// <returns>повертае переклад</returns>
-        private string GetTransleteFromUser(string w) 
+        private string GetTransleteFromUser(string w)
         {
             while (true)
             {
@@ -379,6 +379,22 @@ namespace Dictionary
                     Console.WriteLine("Невірне значення");
             }
             return word;
+        }
+
+        private string GetLanguageNameFromUser()
+        {
+            string langname = "";
+            while (true)
+            {
+                Console.WriteLine("Введіть назву словника");
+                langname = Console.ReadLine().Trim();
+
+                if (langname != string.Empty && dic.GetLanguageList().Find(l => l == langname) != langname)
+                    break;
+                else
+                    Console.WriteLine("Невірне значення");
+            }
+            return langname;
         }
 
         /*--------------Методи дій ----------------*/
@@ -490,6 +506,20 @@ namespace Dictionary
             {
                 Console.WriteLine(s);
             }
+        }
+        /// <summary>
+        /// Змінити назву словника (є можливість вствновлювати власні назви)
+        /// </summary>
+        private void EdtLang()
+        {
+            lang = "";
+            Console.WriteLine("Виберіть словник для зміни його назви");
+            string language = dic.SelectLanguage();
+            string newLanguage = GetLanguageNameFromUser();
+            dic.EditLanguage(language, newLanguage);
+            dic.SerializeData();
+            Console.WriteLine($"Словник \"{language}\" змінил назву на \"{newLanguage}\"");
+            PressAnyKey();
         }
     }
 }
