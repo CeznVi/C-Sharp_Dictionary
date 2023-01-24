@@ -124,7 +124,6 @@ namespace Dictionary
                 }
             }
         }
-       
         /// <summary>
         /// Меню роботи із словником
         /// </summary>
@@ -183,6 +182,24 @@ namespace Dictionary
                             DelW();
                             break;
                         }
+                    case 4:
+                        {
+                            Console.Clear();
+                            AddTrans();
+                            break;
+                        }
+                    case 5:
+                        {
+                            Console.Clear();
+                            EdtTrans();
+                            break;
+                        }
+                    case 6:
+                        {
+                            Console.Clear();
+                            DelTrans();
+                            break;
+                        }
                     case 7:
                         exit = true;
                         return;
@@ -192,14 +209,97 @@ namespace Dictionary
                 }
             }
             Console.Clear();
-            
         }
+        /// <summary>
+        /// Меню роботи з мовами словника
+        /// </summary>
+        private void ManageLang()
+        {
+            if (lang == string.Empty) { lang = dic.SelectLanguage(); }
+
+            List<string> listmenu = new()
+            {
+                "Показати всі словники",
+                "   Створини словник  ",
+                "Перейменувати словник",
+                "   Видалити словник  ",
+                "Вийти у головне меню "
+            };
+
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+
+                WhereAreYou();
+
+                int a = ConsoleMenu.SelectVertical(HPosition.Center,
+                                    VPosition.Top,
+                                    HorizontalAlignment.Center,
+                                    listmenu);
+
+                switch (a)
+                {
+                    case 0:
+                        {
+                            Console.Clear();
+                            dic.ShowAllWord(lang);
+                            PressAnyKey();
+                            break;
+                        }
+                    case 1:
+                        {
+                            Console.Clear();
+                            AddW();
+                            break;
+                        }
+                    case 2:
+                        {
+                            Console.Clear();
+                            EdtW();
+                            break;
+                        }
+                    case 3:
+                        {
+                            Console.Clear();
+                            DelW();
+                            break;
+                        }
+                    case 4:
+                        {
+                            Console.Clear();
+                            AddTrans();
+                            break;
+                        }
+                    case 5:
+                        {
+                            Console.Clear();
+                            EdtTrans();
+                            break;
+                        }
+                    case 6:
+                        {
+                            Console.Clear();
+                            DelTrans();
+                            break;
+                        }
+                    case 7:
+                        exit = true;
+                        return;
+                    default:
+                        exit = true;
+                        return;
+                }
+            }
+            Console.Clear();
+        }
+        
 
         /*--------------------Допоміжні методи----------------------*/
         /// <summary>
         /// Друкує "Натисніть будь яку клавішу щоб продовжити"
         /// </summary>
-        private void PressAnyKey()
+        private static void PressAnyKey()
         {
             Console.WriteLine("Для продовження натисніть будь яку клавішу");
             Console.ReadKey();
@@ -252,6 +352,29 @@ namespace Dictionary
             }
 
             return translete;
+        }
+        /// <summary>
+        /// Отримує від користувача переклад
+        /// </summary>
+        /// ///
+        /// <returns>повертае переклад</returns>
+        private string GetTransleteFromUser(string w) 
+        {
+            while (true)
+            {
+                Console.WriteLine("Введіть слово переклад");
+                string trans = Console.ReadLine();
+
+                if (trans != string.Empty)
+                {
+                    if ((dic.GetTransleteWordList(lang, w).Find(t => t == trans)) == trans)
+                        Console.WriteLine("Такий переклад вже існує");
+                    else
+                        return trans;
+                }
+                else
+                    Console.WriteLine("Поле перекладу не має бути порожнім");
+            }
         }
         /// <summary>
         /// Отримує від користувача слово
@@ -324,6 +447,52 @@ namespace Dictionary
             Console.WriteLine($"Cлово \"{word}\" успішно видалено зі словника \"{lang}\".");
             PressAnyKey();
         }
+        /// <summary>
+        /// Метод додає переклад до слова
+        /// </summary>
+        private void AddTrans()
+        {
+            Console.WriteLine("Виберіть слово для додавання йому перекладу");
+            string word = dic.SelectWord(lang);
 
+            Console.WriteLine($"Додаємо переклад до слова \"{word}\"");
+            string translete = GetTransleteFromUser(word);
+            dic.AddTranslete(lang, word, translete);
+            dic.SerializeData();
+            Console.WriteLine($"До слова \"{word}\" успішно додано переклад \"{translete}\".");
+            PressAnyKey();
+        }
+        /// <summary>
+        /// Метод змінює переклад до слова
+        /// </summary>
+        private void EdtTrans()
+        {
+            Console.WriteLine("Виберіть слово для зміни йому перекладу");
+            string word = dic.SelectWord(lang);
+            
+            Console.WriteLine($"Змінюємо переклад до слова \"{word}\"");
+            string translete = dic.SelectTranclete(lang, word);
+            string edit = GetTransleteFromUser(word);
+            dic.EditTranslete(lang,word, translete, edit);
+            dic.SerializeData();
+            Console.WriteLine($"У слові \"{word}\" успішно змінено переклад \"{translete}\" на \"{edit}\".");
+            PressAnyKey();
+        }
+        /// <summary>
+        /// Видалення перекладу. (коли слово має лише один переклад, то видалення 
+        /// не відбудиться через захист класса Word у методі видалення перекладу
+        /// </summary>
+        private void DelTrans()
+        {
+            Console.WriteLine("Виберіть слово для видалення його перекладу");
+            string word = dic.SelectWord(lang);
+
+            Console.WriteLine($"Видаляємо переклад до слова \"{word}\"");
+            string translete = dic.SelectTranclete(lang, word);
+            dic.RemoveTranslete(lang, word, translete);
+            dic.SerializeData();
+            Console.WriteLine($"У слові \"{word}\" успішно видалено переклад \"{translete}\".");
+            PressAnyKey();
+        }
     }
 }

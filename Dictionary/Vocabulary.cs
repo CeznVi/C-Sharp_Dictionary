@@ -187,7 +187,7 @@ namespace Dictionary
             try
             {
                 if (vc[lang].Find(w => w.BWord == word).TWord.Find(w => w.Equals(trans)) != null)
-                    throw new ArgumentException(vc[lang].Find(w => w.BWord == word).BWord);
+                    throw new ArgumentException();
                 else
                     (vc[lang].Find(w => w.BWord == word)).AddTranslete(trans);
             }

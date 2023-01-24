@@ -81,6 +81,12 @@
             <string>apple</string>
           </TWord>
         </Word>
+        <Word>
+          <BWord>test</BWord>
+          <TWord>
+            <string>tests</string>
+          </TWord>
+        </Word>
       </ArrayOfWord>
     </value>
   </item>
