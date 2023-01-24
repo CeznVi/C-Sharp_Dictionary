@@ -428,8 +428,12 @@ namespace Dictionary
                     throw new Exception($"У словнику {lang} ще немає слів");
 
                 if (lang != null)
+                {
+                    Console.WriteLine("Слово\t Переклад");
+
                     foreach (Word item in vc[lang])
                         Console.WriteLine(item);
+                }
             }
             catch (KeyNotFoundException) 
             { 
@@ -790,7 +794,7 @@ namespace Dictionary
                             Console.WriteLine("Введіть номер");
                             break;
                         }
-                        i = 0;
+                        i = -1;
 
                         Console.Clear();
                         Console.WriteLine("Виберіть із списку нижче");
@@ -824,7 +828,7 @@ namespace Dictionary
         /// <param name="lang">Словник</param>
         /// <param name="word">Перевіряєме слово</param>
         /// <returns>Повертає true якщо так слово є</returns>
-        private bool isExistWordInVoc(string lang, string word)
+        public bool isExistWordInVoc(string lang, string word)
         {
             try
             {
@@ -838,6 +842,7 @@ namespace Dictionary
                 return false;
             }
         }
+
         /*-----------------------Серіалізація--------------------------*/
         /// <summary>
         /// Шлях до директорії де зберігати серіалізовані данні

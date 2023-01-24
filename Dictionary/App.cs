@@ -8,6 +8,7 @@ namespace Dictionary
 {
     public class App
     {
+        /*--------------------Властивості(змінні)----------------------*/
         /// <summary>
         /// Словник
         /// </summary>
@@ -21,6 +22,7 @@ namespace Dictionary
         /// </summary>
         private string word = "";
 
+        /*--------------------Меню додатка----------------------*/
         /// <summary>
         /// Головне меню додатка
         /// </summary>
@@ -83,10 +85,9 @@ namespace Dictionary
             }
            
             Console.Clear();
-            dic.SerializeData();
         }
         /// <summary>
-        /// Метод експорту слова у файл
+        /// Меню експорту слова у файл
         /// </summary>
         private void ExportData()
         {
@@ -123,6 +124,9 @@ namespace Dictionary
             }
         }
        
+        /// <summary>
+        /// Меню роботи із словником
+        /// </summary>
         private void ManageWord()
         {
             if (lang == string.Empty) { lang = dic.SelectLanguage(); }
@@ -164,12 +168,14 @@ namespace Dictionary
                         {
                             Console.Clear();
                             AddW();
-                            PressAnyKey();
                             break;
                         }
                     case 2:
-
-                        break;
+                        {
+                            Console.Clear();
+                            EdtW();
+                            break;
+                        }
                     case 3:
                         lang = dic.SelectLanguage();
                         break;
@@ -183,16 +189,22 @@ namespace Dictionary
                         return;
                 }
             }
-
             Console.Clear();
-            dic.SerializeData();
+            
         }
 
+        /*--------------------Допоміжні методи----------------------*/
+        /// <summary>
+        /// Друкує "Натисніть будь яку клавішу щоб продовжити"
+        /// </summary>
         private void PressAnyKey()
         {
             Console.WriteLine("Для продовження натисніть будь яку клавішу");
             Console.ReadKey();
         }
+        /// <summary>
+        /// Друкує назву поточного словника
+        /// </summary>
         private void WhereAreYou()
         {
             if (lang != string.Empty)
@@ -202,26 +214,93 @@ namespace Dictionary
                 Console.SetCursorPosition(0, 0);
             }
         }
-       
-        /// ТУ ДУ
-        private void AddW()
+        /// <summary>
+        /// Отримує від користувача список перекладів
+        /// </summary>
+        /// <returns>Список перекладів</returns>
+        private List<string> GetTransleteListFromUser()
         {
-            string word = "";
+            List<string> translete = new();
+
+            while (true)
+            {
+                Console.WriteLine("Введіть слово переклад");
+                string trans = Console.ReadLine();
+
+                if (trans != string.Empty)
+                {
+                    if ((translete.Find(t => t == trans)) == trans)
+                        Console.WriteLine("Такий переклад вже існує");
+                    else
+                    {
+                        Console.WriteLine($"Переклад {trans} успішно додано до варіантів перекладу");
+                        translete.Add(trans);
+                        Console.WriteLine("Для того щоб закінчити з додаванням перекладів натисніть клавішу ESC");
+                        Console.WriteLine("Або натисніть будь яку іншу клавішу щоб додати ще варіант перекладу");
+
+                        System.ConsoleKeyInfo k = Console.ReadKey();
+                        Console.Clear();
+
+                        if (k.Key == ConsoleKey.Escape)
+                            break;
+                    }
+                }
+                else
+                    Console.WriteLine("Поле перекладу не має бути порожнім");
+            }
+
+            return translete;
+        }
+        /// <summary>
+        /// Отримує від користувача слово
+        /// </summary>
+        /// <returns>Слово</returns>
+        private string GetWordFromUser()
+        {
             while (true)
             {
                 Console.WriteLine("Введіть слово");
                 word = Console.ReadLine();
 
-                if(word != string.Empty) { break; }
-                else { Console.WriteLine("Невірне значення"); }
+                if (word != string.Empty && dic.isExistWordInVoc(lang, word) != true)
+                    break;
+                else
+                    Console.WriteLine("Невірне значення");
             }
-
-            List<string> translete = new();
-
-            //while (true)
-            //{
-
-            //}
+            return word;
         }
+
+        /*--------------Методи дій ----------------*/
+        /// <summary>
+        /// Метод додає слово з перекладом
+        /// </summary>
+        private void AddW()
+        {
+
+            string word = GetWordFromUser();
+
+            Console.Clear();
+            Console.WriteLine($"Ви створили слово: {word}, тепер попрацюємо з його перекладом");
+            PressAnyKey();
+
+            List<string> translete = GetTransleteListFromUser();
+            Word w = new(word, translete);
+            Console.Clear();
+
+            dic.AddWord(lang, w);
+            dic.SerializeData();
+            Console.WriteLine("_У словник додано:");
+            dic.ShowWord(lang, word);
+            PressAnyKey();
+        }
+
+        private void EdtW()
+        {
+            Console.WriteLine("Виберіть слово для його зміни");
+            string word = dic.SelectWord(lang);
+
+        }
+        
+
     }
 }

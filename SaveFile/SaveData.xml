@@ -5,7 +5,59 @@
       <string>Українська - Англійська</string>
     </key>
     <value>
-      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Word>
+          <BWord>вода</BWord>
+          <TWord>
+            <string>water</string>
+            <string>waters</string>
+            <string>watterss</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>кіт</BWord>
+          <TWord>
+            <string>cat</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>ніс</BWord>
+          <TWord>
+            <string>nose</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>око</BWord>
+          <TWord>
+            <string>eye</string>
+            <string>eyes</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>пес</BWord>
+          <TWord>
+            <string>dog</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>стіл</BWord>
+          <TWord>
+            <string>table</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>часи</BWord>
+          <TWord>
+            <string>clock</string>
+          </TWord>
+        </Word>
+        <Word>
+          <BWord>яблуко</BWord>
+          <TWord>
+            <string>apple</string>
+          </TWord>
+        </Word>
+      </ArrayOfWord>
     </value>
   </item>
 </dictionary>
