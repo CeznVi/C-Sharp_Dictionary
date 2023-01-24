@@ -90,29 +90,4 @@
       </ArrayOfWord>
     </value>
   </item>
-  <item>
-    <key>
-      <string>Видалити</string>
-    </key>
-    <value>
-      <ArrayOfWord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <Word>
-          <BWord>adasd</BWord>
-          <TWord>
-            <string>sdcdx</string>
-            <string>xdvv</string>
-          </TWord>
-        </Word>
-        <Word>
-          <BWord>test</BWord>
-          <TWord>
-            <string>тест</string>
-            <string>тест </string>
-            <string>тест  </string>
-            <string>1</string>
-          </TWord>
-        </Word>
-      </ArrayOfWord>
-    </value>
-  </item>
 </dictionary>

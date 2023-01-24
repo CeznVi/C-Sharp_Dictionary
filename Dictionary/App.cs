@@ -266,7 +266,7 @@ namespace Dictionary
                     case 3:
                         {
                             Console.Clear();
-
+                            DelLang(); 
                             break;
                         }
                     case 4:
@@ -380,7 +380,10 @@ namespace Dictionary
             }
             return word;
         }
-
+        /// <summary>
+        /// Отримує від користувача назву мови
+        /// </summary>
+        /// <returns>назву мови</returns>
         private string GetLanguageNameFromUser()
         {
             string langname = "";
@@ -519,6 +522,20 @@ namespace Dictionary
             dic.EditLanguage(language, newLanguage);
             dic.SerializeData();
             Console.WriteLine($"Словник \"{language}\" змінил назву на \"{newLanguage}\"");
+            PressAnyKey();
+        }
+        /// <summary>
+        /// Видалити словник
+        /// </summary>
+        private void DelLang()
+        {
+            lang = "";
+            Console.WriteLine("Виберіть словник для видалення його");
+            PressAnyKey();
+            string language = dic.SelectLanguage();
+            dic.RemoveLanguage(language);
+            dic.SerializeData();
+            Console.WriteLine($"Словник \"{language}\" було видалено.");
             PressAnyKey();
         }
     }
